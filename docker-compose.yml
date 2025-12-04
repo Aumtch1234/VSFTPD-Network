@@ -2,9 +2,10 @@ version: "3.8"
 
 services:
   vsftpd_1:
-    image: lhauspie/vsftpd-alpine:latest
+    build: ./dockerfiles/dockerfile-c1
+    # image: lhauspie/vsftpd-alpine:latest
     #สั่งรันหลัง build image เสร็จ
-    entrypoint: ["sh", "-c", "apk update && apk add --no-cache lftp && apk add busybox-extras && apk add curl && exec /usr/sbin/vsftpd"] 
+    # entrypoint: ["sh", "-c", "apk update && apk add --no-cache lftp && apk add busybox-extras && apk add curl"] 
     container_name: vsftpd_1
     restart: always
     ports:

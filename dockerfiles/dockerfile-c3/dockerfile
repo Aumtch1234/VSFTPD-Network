@@ -1,7 +1,13 @@
+# dockerfiles/vsftpd-with-tools/Dockerfile
 FROM lhauspie/vsftpd-alpine:latest
 
+# ติดตั้ง tools ตอน BUILD TIME
 RUN apk update && \
-    apk add --no-cache busybox-extras curl bash iputils lftp
+    apk add --no-cache \
+        lftp \
+        busybox-extras \
+        curl && \
+    rm -rf /var/cache/apk/*
 
-# ทำให้ container run vsftpd
-CMD ["/usr/sbin/vsftpd"]
+# ⭐ ไม่ต้อง override ENTRYPOINT
+# ใช้ default entrypoint จาก base image
