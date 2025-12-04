@@ -3,6 +3,8 @@ version: "3.8"
 services:
   vsftpd_1:
     image: lhauspie/vsftpd-alpine:latest
+    #สั่งรันหลัง build image เสร็จ
+    entrypoint: ["sh", "-c", "apk update && apk add --no-cache lftp && apk add busybox-extras && apk add curl && exec /usr/sbin/vsftpd"] 
     container_name: vsftpd_1
     restart: always
     ports:
@@ -11,7 +13,7 @@ services:
     environment:
       FTP_USER: "user1"
       FTP_PASS: "user1"
-      PASV_ADDRESS: "10.1.194.44"
+      PASV_ADDRESS: "127.0.0.1"
       PASV_MIN_PORT: "21100"
       PASV_MAX_PORT: "21110"
     volumes:
@@ -21,13 +23,13 @@ services:
       - private-net   # ให้คุยกับ vsftpd_2 ได้
 
   vsftpd_2:
-    image: lhauspie/vsftpd-alpine:latest
+    build: ./dockerfiles/dockerfile-c2
     container_name: vsftpd_2
     restart: always
     environment:
       FTP_USER: "user2"
       FTP_PASS: "user2"
-      PASV_ADDRESS: "10.1.194.44"
+      PASV_ADDRESS: "127.0.0.1"
       PASV_MIN_PORT: "22100"
       PASV_MAX_PORT: "22110"
     volumes:
@@ -36,13 +38,13 @@ services:
       - private-net  # คุยกับ vsftpd_1 ได้เท่านั้น
 
   vsftpd_3:
-    image: lhauspie/vsftpd-alpine:latest
+    build: ./dockerfiles/dockerfile-c3
     container_name: vsftpd_3
     restart: always
     environment:
       FTP_USER: "user3"
       FTP_PASS: "user3"
-      PASV_ADDRESS: "10.1.194.44"
+      PASV_ADDRESS: "127.0.0.1"
       PASV_MIN_PORT: "23100"
       PASV_MAX_PORT: "23110"
     volumes:

@@ -1,0 +1,7 @@
+FROM lhauspie/vsftpd-alpine:latest
+
+RUN apk update && \
+    apk add --no-cache busybox-extras curl bash iputils lftp
+
+# ทำให้ container run vsftpd
+CMD ["/usr/sbin/vsftpd"]
